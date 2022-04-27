@@ -1,18 +1,14 @@
 // Constant Variables
 const cTable = require('console.table');
 const inquirer = require('inquirer');
-const mysql = require('mysql2');
+const db = require('./db/index.js');
 
-//This variable creates the connection in mysql. 
-const db = mysql.createConnection(
-    {
-        host: 'localhost',
-        user: 'root',
-        password: 'BootCampBlues85',
-        database: 'employees'
-    },
-        console.log(`Connected to the employees database.`)
-);
+function runProgram() {
+    console.log("WELCOME TO EMPLOYEE MANAGER")
+    askQuestions();
+}
+
+runProgram();
 
 // Ask the User Questions
 function askQuestions () {
@@ -88,9 +84,13 @@ function askQuestions () {
     })
 };
 
-function showDepartments () {
-    console.log ("")
-}
+function showDepartments() {
+    db.findDepartments().then(([rows]) => {
+        var departments = rows;
+        console.table(departments);
+    })
+    .then(() => askQuestions());
+};
 
 function showRoles () {
     console.log ("")
