@@ -4,11 +4,11 @@ INSERT INTO department
     (name)
 
 VALUES
-    ('Legal Secretary'),
-    ('Paralegal'),
-    ('Accountant'),
-    ('Attorney'),
-    ('HR Manager');
+    ('Admin'),
+    ('Legal'),
+    ('Accounting'),
+    ('Legal'),
+    ('Public Relations');
 
 INSERT INTO role
     (title, salary, department_id)
@@ -28,4 +28,4 @@ VALUES
     ('Roger', 'Rabbit', 2, NULL),
     ('Charlie', 'Brown', 3, NULL),
     ('Bart', 'Simpson', 4, NULL),
-    ('Squidward' 'Tentacles', 5, NULL);
+    ('Squidward', 'Tentacles', 5, NULL)
