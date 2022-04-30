@@ -8,8 +8,6 @@ function runProgram() {
     askQuestions();
 }
 
-runProgram();
-
 // Ask the User Questions
 function askQuestions () {
     inquirer.prompt([
@@ -115,7 +113,11 @@ function showRoles () {
 }
 
 function showEmployees () {
-    console.log ("")
+    db.findEmployees().then(([rows]) => {
+        var employees = rows;
+        console.table(employees);
+    })
+    .then(() => askQuestions());
 }
 
 function addDepartment () {
@@ -168,7 +170,16 @@ async function addRole () {
 }
 
 function addEmployee () {
-    console.log ("")
+    inquirer.prompt({
+        type: 'input',
+        name: /*'first_name',*/
+        message: 'What is the name of the new employee?'
+    }).then (answer => {
+        var newEmp = {name:answer.first_name};
+        db.addEmployee(newEmp).then(res => {
+            showEmployees();
+        });
+    })
 }
 
 function updateEmployeeRole () {
@@ -191,6 +202,8 @@ async function deleteDepartment() {
     })
 }
 
+runProgram();
+
 function endProgram () {
-    console.log ("")
+    console.log ("Program Ended")
 }

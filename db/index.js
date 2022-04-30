@@ -4,7 +4,13 @@ class DB {
     constructor(connection) {
         this.connection = connection;
     }
-    
+
+    findEmployees() {
+        return this.connection.promise().query(
+            "SELECT * FROM employee"
+        );
+    }
+
     findDepartments() {
     return this.connection.promise().query(
         "SELECT department.id, department.name FROM department;"
@@ -28,6 +34,13 @@ class DB {
             "INSERT INTO role SET ?", role
         );
     }
+
+    addEmployee(employee) {
+        return this.connection.promise().query(
+            // "INSERT INTO employee SET ?", employee
+        );
+    }
+
 
     deleteDepartment(id) {
         return this.connection.promise().query(
