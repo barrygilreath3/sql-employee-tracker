@@ -169,13 +169,44 @@ async function addRole () {
     })
 }
 
-function addEmployee () {
-    inquirer.prompt({
-        type: 'input',
-        name: /*'first_name',*/
-        message: 'What is the name of the new employee?'
-    }).then (answer => {
-        var newEmp = {name:answer.first_name};
+async function addEmployee () {
+    const [roles] = await db.findRoles();
+    var roleArray = roles.map(({id, title}) =>({
+        name: title,
+        value: id
+    }));
+
+    const [employees] = await db.findEmployees();
+    var employeeArray = employees.map(({id, first_name, last_name}) =>({
+        name: first_name + " " + last_name,
+        value: id
+    }));
+
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first_name',
+            message: 'What is the name of the new employee?'
+        },
+        {
+            type: 'input',
+            name: 'last_name',
+            message: 'What is the last name of the new employee?'
+        },
+        {
+            type: 'list',
+            name: 'role',
+            message: 'What is the role of the new employee?',
+            choices: roleArray
+        },
+        {
+            type: 'list',
+            name: 'manager',
+            message: 'Who is the manager of the new employee?',
+            choices: employeeArray
+        }
+]).then (answer => {
+        var newEmp = {first_name:answer.first_name, last_name:answer.last_name, role_id:answer.role, manager_id:1};
         db.addEmployee(newEmp).then(res => {
             showEmployees();
         });
@@ -183,7 +214,7 @@ function addEmployee () {
 }
 
 function updateEmployeeRole () {
-    console.log ("")
+    console.log ("cue employees")
 }
 
 async function deleteDepartment() {
@@ -205,5 +236,5 @@ async function deleteDepartment() {
 runProgram();
 
 function endProgram () {
-    console.log ("Program Ended")
+    process.exit();
 }
