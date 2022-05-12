@@ -35,5 +35,8 @@ WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
 ```
 
-## Contact
-barrygilreath3@gmail.com
+## Video
+https://drive.google.com/file/d/1d40aB1ZyDoXF3f-Y9PYRLdywmNdpNvH6/view?usp=sharing
+
+## GitHub Repository
+https://github.com/barrygilreath3/e-commerce-backend

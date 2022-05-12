@@ -1,15 +1,17 @@
 // Constant Variables
-const cTable = require('console.table');
 const inquirer = require('inquirer');
 const db = require('./db/index.js');
+require('console.table');
 
 function runProgram() {
     console.log("WELCOME TO EMPLOYEE MANAGER")
+    console.log('\n')//Space on the terminal
     askQuestions();
 }
 
 // Ask the User Questions
 function askQuestions () {
+    console.log('\n')//Space on the terminal
     inquirer.prompt([
         {
             name: "userChoice",
@@ -193,7 +195,7 @@ async function addEmployee () {
         {
             type: 'input',
             name: 'first_name',
-            message: 'What is the name of the new employee?'
+            message: 'What is the first name of the new employee?'
         },
         {
             type: 'input',
@@ -221,7 +223,46 @@ async function addEmployee () {
 }
 
 function updateEmployeeRole () {
-    console.log ("cue employees")
+    db.findEmployees()
+    .then(([rows]) => {
+      let employees = rows;
+      const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id
+      }));
+
+      inquirer.prompt([
+        {
+          type: "list",
+          name: "employeeId",
+          message: "Which employee's role do you want to update?",
+          choices: employeeChoices
+        }
+      ])
+        .then(res => {
+          let employeeId = res.employeeId;
+          db.findRoles()
+            .then(([rows]) => {
+              let roles = rows;
+              const roleChoices = roles.map(({ id, title }) => ({
+                name: title,
+                value: id
+              }));
+
+              inquirer.prompt([
+                {
+                  type: "list",
+                  name: "roleId",
+                  message: "Which role do you want to assign the selected employee?",
+                  choices: roleChoices
+                }
+              ])
+                .then(res => db.updateEmployeeRole(employeeId, res.role_Id))
+                .then(() => console.log("Updated employee's role"))
+                .then(() => askQuestions())
+            });
+        });
+    })
 }
 
 async function deleteDepartment() {
