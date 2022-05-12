@@ -1,9 +1,9 @@
 # SQL: Employee Tracker
 
 ## Task
-For this project, I was assigned to build a command-line application from scratch that is designed to manage a company's employee database.
+For this project, I was tasked to build a command-line application from scratch, designed to manage a company's employee database.
 
-This application uses Node.js, Inquirer, and MySql.
+The featured technologies for this application are Node.js, Inquirer, and MySql.
 
 ## User Story
 
@@ -34,5 +34,6 @@ THEN I am prompted to enter the employee’s first name, last name, role, and ma
 WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database 
 ```
+
 ## Contact
 barrygilreath3@gmail.com

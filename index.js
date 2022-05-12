@@ -49,6 +49,10 @@ function askQuestions () {
                     value: "Update Employee Role"
                 },
                 {
+                    name: "Delete Employee",
+                    value: "Delete Employee"
+                },
+                {
                     name: "End Program",
                     value: "End Program"
                 }
@@ -81,6 +85,9 @@ function askQuestions () {
                 break;
             case "Update Employee Role":
                 updateEmployeeRole();
+                break;
+            case "Delete Employee":
+                deleteEmployee();
                 break;
             case "End Program":
                 endProgram();
@@ -233,8 +240,26 @@ async function deleteDepartment() {
     })
 }
 
+async function deleteEmployee() {
+    const [employees] = await db.findEmployees();
+    var employeeArray = employees.map(({id, name}) =>({
+        name: name,
+        value: id
+    }));
+    inquirer.prompt({
+        type: 'list',
+        message: 'Which employee would you like to delete?',
+        name: 'role_id',
+        choices: employeeArray
+    }).then (answer => {
+        db.deleteEmployee(answer.role_id).then(res => showEmployees());
+    })
+}
+
+
 runProgram();
 
 function endProgram () {
+    console.log(`\n\nThat's All Folks!`)
     process.exit();
 }
